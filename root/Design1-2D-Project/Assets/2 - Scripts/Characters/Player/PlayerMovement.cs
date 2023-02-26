@@ -9,6 +9,13 @@ public class PlayerMovement : MonoBehaviour
     private float speed = 8f;
     private float jumpingPower = 1000f;
     private bool isFacingRight = true;
+    
+    public bool isFacingR
+    {
+        get {return isFacingRight;}
+        set {isFacingRight = value;}
+    }
+
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
