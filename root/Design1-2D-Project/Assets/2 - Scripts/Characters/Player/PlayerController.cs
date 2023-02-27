@@ -17,9 +17,11 @@ public class PlayerController : MonoBehaviour
     //necciisary movement controls
     private bool isFacingRight = true;
     private bool canControlPlayer = true;
-    private bool canJump;
+    private bool canJump = true;
     [SerializeField] private float gravity;
     [SerializeField] private bool gravityToggle;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private Transform groundCheck;
     private bool isGrounded;
     private Vector2 velocity;
     Vector2 moveDirection;
@@ -52,7 +54,7 @@ public class PlayerController : MonoBehaviour
                 Dash(5f);
             }
         }
-        moveDirection = new Vector2(hAxis, vAxis).normalized;
+        moveDirection = new Vector2(hAxis, 0).normalized;
         //need to add wall climb?
     }
 
@@ -63,6 +65,7 @@ public class PlayerController : MonoBehaviour
 
     void Gravity()
     {
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
         if (gravityToggle && !isGrounded)
         {
             velocity.y += gravity * Time.deltaTime;
@@ -92,7 +95,10 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        
+        Debug.Log("trying to jump");
+        transform.Translate(new Vector2(0, currentSaveData.jumpForce) * Time.deltaTime);
+        StartCoroutine(JumpCooldown());
+        canJump = false;
     }
 
     private IEnumerator JumpCooldown()
@@ -157,22 +163,5 @@ public class PlayerController : MonoBehaviour
     }
 
     //ground check
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = true;
-            Debug.Log(collision);
-        }
-    }
-
-
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = false;
-            Debug.Log(collision);
-        }
-    }
+    
 }
