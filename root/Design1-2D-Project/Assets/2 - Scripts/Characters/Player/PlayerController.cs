@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
         //check gravity first, and apply it if nessicary
         Gravity();
 
+
         //check for player control. if applicable, jump or dash
         if (canControlPlayer)
         {
@@ -45,13 +46,13 @@ public class PlayerController : MonoBehaviour
 
             if (canJump && Input.GetKeyDown(KeyCode.Space) && isGrounded)
             {
-                Jump();
+                charController.Move(Vector2.up * currentSaveData.jumpForce * Time.deltaTime);
             }
 
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
                 //can only be called on top of itself if the ability to use it is true (so it should turn off its own ability to interact while true
-                Dash(5f);
+                
             }
         }
         moveDirection = new Vector2(hAxis, 0).normalized;
@@ -93,49 +94,28 @@ public class PlayerController : MonoBehaviour
         FlipControl();
     }
 
-    private void Jump()
+    //the following will handle cooldowns based on the inputted action the player uses
+    private IEnumerator actionCooldown(float value, Action action)
     {
-        Debug.Log("trying to jump");
-        transform.Translate(new Vector2(0, currentSaveData.jumpForce) * Time.deltaTime);
-        StartCoroutine(JumpCooldown());
-        canJump = false;
-    }
-
-    private IEnumerator JumpCooldown()
-    {
-        yield return new WaitForSeconds(0.5f);
-        canJump = true;
-    }
-
-
-    void Dash(float DashDistance)
-    {
-        //turn off movement input and take the side
-        canControlPlayer = false;
-        StartCoroutine(DashCoroutine(moveDirection, 0.4f));
-        gravityToggle = false;
-    }
-
-    IEnumerator DashCoroutine(Vector2 dashVelocity, float dashTime)
-    {
-        float timer = 0f;
-
-        while (timer < dashTime)
+        yield return new WaitForSeconds(value);
+        switch (action)
         {
-            charController.Move(dashVelocity * Time.deltaTime);
-
-            timer += Time.deltaTime;
-            yield return null;
+            case Action.Dash:
+                //do some code for dash
+                break;
+            case Action.jump: 
+                //do some code for jumping
+                break;
+            case Action.WallClimb: 
+                //any code for wall jumping here
+                break;
         }
-
-        canControlPlayer = true;
-        gravityToggle = true;
     }
 
-    void WallClimb()
-    {
-        //leave blank for now
-    }
+
+
+
+
 
     //flynns work, great job
     private void Flip()
