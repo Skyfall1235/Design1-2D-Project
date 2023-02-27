@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -17,9 +18,11 @@ public class PlayerController : MonoBehaviour
     private bool isFacingRight = true;
     private bool canControlPlayer = true;
     private bool canJump;
-    [SerializeField] private bool gravityIsActive;
     [SerializeField] private float gravity;
+    [SerializeField] private bool gravityToggle;
+    private bool isGrounded;
     private Vector2 velocity;
+    Vector2 moveDirection;
 
     //control axi
     float vAxis;
@@ -30,21 +33,46 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        //check gravity first, and apply it if nessicary
+        Gravity();
+
+        //check for player control. if applicable, jump or dash
         if (canControlPlayer)
         {
             MovePlayer();
 
-            if (canJump && Input.GetKeyDown(KeyCode.Space))
+            if (canJump && Input.GetKeyDown(KeyCode.Space) && isGrounded)
             {
                 Jump();
             }
 
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
+                //can only be called on top of itself if the ability to use it is true (so it should turn off its own ability to interact while true
                 Dash(5f);
             }
         }
+        moveDirection = new Vector2(hAxis, vAxis).normalized;
         //need to add wall climb?
+    }
+
+    private void FixedUpdate()
+    {
+        FlipControl();
+    }
+
+    void Gravity()
+    {
+        if (gravityToggle && !isGrounded)
+        {
+            velocity.y += gravity * Time.deltaTime;
+        }
+        else if (isGrounded)
+        {
+            // If the character is grounded, set their y velocity to 0
+            velocity.y = 0f;
+        }
+        charController.Move(velocity * Time.deltaTime);
     }
 
     void MovePlayer()
@@ -52,21 +80,9 @@ public class PlayerController : MonoBehaviour
         //control axi updating
         vAxis = Input.GetAxis("Vertical");
         hAxis = Input.GetAxis("Horizontal");
+        //Debug.Log(hAxis + " " + vAxis);
 
-        //gravity calculation
-
-        if (isGrounded()) gravityIsActive = false;
-        //basic movement
-        Vector2 moveDirection = new Vector2(hAxis, vAxis).normalized;
-
-        velocity.y += gravity * Time.deltaTime;
-        charController.Move(velocity * Time.deltaTime);
-
-        if (isGrounded())
-        {
-            velocity.y = 0f;
-        }
-
+        //if inputs exist, use them.
         if (moveDirection.magnitude > 0f)
         {
             charController.Move(moveDirection * currentSaveData.walkSpeed * Time.deltaTime);
@@ -78,10 +94,6 @@ public class PlayerController : MonoBehaviour
     {
         
     }
-    private bool isGrounded()
-    {
-        return charController.isGrounded;
-    }
 
     private IEnumerator JumpCooldown()
     {
@@ -90,9 +102,12 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    void Dash(float dashDistance)
+    void Dash(float DashDistance)
     {
         //turn off movement input and take the side
+        canControlPlayer = false;
+        StartCoroutine(DashCoroutine(moveDirection, 0.4f));
+        gravityToggle = false;
     }
 
     IEnumerator DashCoroutine(Vector2 dashVelocity, float dashTime)
@@ -108,6 +123,7 @@ public class PlayerController : MonoBehaviour
         }
 
         canControlPlayer = true;
+        gravityToggle = true;
     }
 
     void WallClimb()
@@ -137,6 +153,26 @@ public class PlayerController : MonoBehaviour
         else if (hAxis < 0 && isFacingRight)
         {
             Flip();
+        }
+    }
+
+    //ground check
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+            Debug.Log(collision);
+        }
+    }
+
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false;
+            Debug.Log(collision);
         }
     }
 }

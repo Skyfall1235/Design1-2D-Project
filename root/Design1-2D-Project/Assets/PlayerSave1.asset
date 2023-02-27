@@ -16,6 +16,7 @@ MonoBehaviour:
   cameraPosition: {x: 0, y: 0}
   coinAmount: 0
   walkSpeed: 6
+  dashDistance: 3
   jumpForce: 600
   currentHealth: 100
   weaponType: 0

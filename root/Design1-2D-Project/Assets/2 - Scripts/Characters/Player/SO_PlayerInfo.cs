@@ -14,6 +14,7 @@ public class PlayerData : ScriptableObject
     public Vector2 cameraPosition;
     public int coinAmount;
     public float walkSpeed;
+    public float dashDistance;
     public float jumpForce;
     public int currentHealth;
     public WeaponType weaponType;
