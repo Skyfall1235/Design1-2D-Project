@@ -36,15 +36,15 @@ public class ScrollX : MonoBehaviour
     {
         if (obj.gameObject.CompareTag("Player"))
         {
-            if (player.GetComponent<PlayerMovement>().isFacingR)
-            {
-                stagenum += 1;
-                move = true;
+            // if (player.GetComponent<PlayerMovement>().isFacingR)
+            // {
+            //     stagenum += 1;
+            //     move = true;
 
-            } else if (!player.GetComponent<PlayerMovement>().isFacingR) {
-                stagenum -= 1;
-                move = true;
-            }
+            // } else if (!player.GetComponent<PlayerMovement>().isFacingR) {
+            //     stagenum -= 1;
+            //     move = true;
+            // }
         }
     }
 }
