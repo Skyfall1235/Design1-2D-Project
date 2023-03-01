@@ -33,41 +33,14 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        horizontalAxis = Input.GetAxisRaw("Horizontal");
-
-        if(Input.GetButtonDown("Jump") && grounded || Input.GetButtonDown("Jump") && isWallSliding)
-        {
-            StartCoroutine(ActionCooldown(0, Action.jump));
-        }
-        if(Input.GetButtonDown("Dash") && canControlPlayer && hasResetDash)
-        {
-            StartCoroutine(ActionCooldown(3, Action.Dash));
-        }
-        //do we need input for wall jumping?
+        TakeInput();
     }
 
     private void FixedUpdate()
     {
         playerRB.velocity = new Vector2(horizontalAxis * currentSaveData.walkSpeed, playerRB.velocity.y);
 
-        bool touchingGround = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);;
-
-        if (touchingGround)
-        {
-            grounded = true;
-            jumpTime = Time.time + wallJumpTime;
-        } else if (jumpTime < Time.time) {
-            grounded = false;
-        }
-
-		if (horizontalAxis > 0 && !isFacingRight)
-		{
-			Flip();
-		}
-		else if (horizontalAxis < 0 && isFacingRight)
-		{
-			Flip();
-		}
+        FlipControl();
 
         //Wall Jump
         //can we move this to the switch case and then call its coroutine here?
@@ -92,6 +65,26 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void TakeInput()
+    {
+        if(canControlPlayer)
+        {
+            horizontalAxis = Input.GetAxisRaw("Horizontal");
+
+            if (Input.GetButtonDown("Jump") && grounded || Input.GetButtonDown("Jump") && isWallSliding)
+            {
+                StartCoroutine(ActionCooldown(0, Action.jump));
+            }
+            if (Input.GetButtonDown("Dash") && canControlPlayer && hasResetDash)
+            {
+                StartCoroutine(ActionCooldown(3, Action.Dash));
+            }
+            //do we need input for wall jumping?
+        }
+
+    }
+
+    #region Computational methods
     private void Flip()
     {
         if (isFacingRight && horizontalAxis <0f || !isFacingRight && horizontalAxis > 0f)
@@ -100,6 +93,31 @@ public class PlayerMovement : MonoBehaviour
             Vector3 localScale = transform.localScale;
             localScale.x *= -1f;
             transform.localScale = localScale;
+        }
+    }
+
+    private void FlipControl()
+    {
+        bool touchingGround = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer); ;
+
+        if (touchingGround)
+        {
+            grounded = true;
+            jumpTime = Time.time + wallJumpTime;
+            hasResetDash = true;
+        }
+        else if (jumpTime < Time.time)
+        {
+            grounded = false;
+        }
+
+        if (horizontalAxis > 0 && !isFacingRight)
+        {
+            Flip();
+        }
+        else if (horizontalAxis < 0 && isFacingRight)
+        {
+            Flip();
         }
     }
 
@@ -113,13 +131,14 @@ public class PlayerMovement : MonoBehaviour
                 //do some code for dash
                 //turn off the player control,do force without gravity, then after it ends turn those back on
                 canControlPlayer = false;
-                playerRB.isKinematic = false;
-                //perform the dash, then wait 
-                playerRB.AddForce(new Vector2(currentSaveData.dashDistance, 0));
+                playerRB.gravityScale = 0.0f;
+                //perform the dash, then wait \
+                hasResetDash = false;
+                playerRB.AddForce(new Vector2(transform.localScale.x * currentSaveData.dashDistance, 0));
                 yield return new WaitForSeconds(value);
                 //then turn back control to the player
                 canControlPlayer = true;
-                playerRB.isKinematic = true;
+                playerRB.gravityScale = 1.0f;
                 break;
                 
             case Action.jump:
@@ -136,4 +155,6 @@ public class PlayerMovement : MonoBehaviour
 
         }
     }
+
+    #endregion
 }
