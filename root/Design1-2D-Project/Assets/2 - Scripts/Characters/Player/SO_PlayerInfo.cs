@@ -18,7 +18,8 @@ public enum Action
 public class PlayerData : ScriptableObject
 {
     public Vector2 playerPosition;
-    public Vector2 cameraPosition;
+    public Vector2[] stageArray;
+    public int currentStage;
     public int coinAmount;
     public float walkSpeed;
     public float dashDistance;

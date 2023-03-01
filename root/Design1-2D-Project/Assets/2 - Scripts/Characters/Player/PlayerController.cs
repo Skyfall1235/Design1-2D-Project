@@ -16,8 +16,9 @@ public class PlayerController : MonoBehaviour
 
     //necciisary movement controls
     private bool isFacingRight = true;
-    private bool canControlPlayer = true;
+    public bool canControlPlayer = true;
     private bool canJump = true;
+    private float jumpValue;
     [SerializeField] private float gravity;
     [SerializeField] private bool gravityToggle;
     [SerializeField] private LayerMask groundLayer;
@@ -44,9 +45,10 @@ public class PlayerController : MonoBehaviour
         {
             MovePlayer();
 
-            if (canJump && Input.GetKeyDown(KeyCode.Space) && isGrounded)
+            if (canJump && Input.GetKeyDown(KeyCode.Space))
             {
-                charController.Move(Vector2.up * currentSaveData.jumpForce * Time.deltaTime);
+                Jump();
+                Debug.Log("jumping");
             }
 
             if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -55,7 +57,7 @@ public class PlayerController : MonoBehaviour
                 
             }
         }
-        moveDirection = new Vector2(hAxis, 0).normalized;
+        moveDirection = new Vector2(hAxis, jumpValue).normalized;
         //need to add wall climb?
     }
 
@@ -71,7 +73,7 @@ public class PlayerController : MonoBehaviour
         {
             velocity.y += gravity * Time.deltaTime;
         }
-        else if (isGrounded)
+        if (isGrounded)
         {
             // If the character is grounded, set their y velocity to 0
             velocity.y = 0f;
@@ -94,6 +96,12 @@ public class PlayerController : MonoBehaviour
         FlipControl();
     }
 
+    void Jump()
+    {
+        jumpValue += Mathf.Sqrt(currentSaveData.jumpForce * gravity);
+        StartCoroutine(actionCooldown(2, Action.jump));
+    }
+
     //the following will handle cooldowns based on the inputted action the player uses
     private IEnumerator actionCooldown(float value, Action action)
     {
@@ -102,9 +110,11 @@ public class PlayerController : MonoBehaviour
         {
             case Action.Dash:
                 //do some code for dash
+                canControlPlayer = true;
                 break;
             case Action.jump: 
                 //do some code for jumping
+
                 break;
             case Action.WallClimb: 
                 //any code for wall jumping here
