@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
     private float horizontalAxis;
-    //no longer needed, is stored on the scriptable object
-    private float jumpingPower = 25f;
     [SerializeField] private bool isFacingRight = true;
     public bool isFacingR
     {
@@ -24,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     //hint, what could we potentially change later to buff or nerf the player
     private float wallJumpTime = 0.2f;
     private float wallSlideSpeed = 0.3f;
-    private float wallDistance = 0.51f;
+    private float wallDistance = 0.55f;
     [SerializeField] private bool isWallSliding = false;
     [SerializeField] private bool canControlPlayer = true;
     [SerializeField] private bool hasResetDash;
@@ -48,20 +47,7 @@ public class PlayerMovement : MonoBehaviour
 
         FlipControl();
 
-        //Wall Jump
-        //can we move this to the switch case and then call its coroutine here?
-        if(WallCheckHit && !grounded && horizontalAxis != 0)
-        {
-            isWallSliding = true;
-            jumpTime = Time.time + wallJumpTime;
-        } else if (jumpTime < Time.time) {
-            isWallSliding = false;
-        }
-
-        if (isWallSliding)
-        {
-            playerRB.velocity = new Vector2(playerRB.velocity.x, Mathf.Clamp(playerRB.velocity.y, wallSlideSpeed, float.MaxValue));
-        }
+        WallJumping();
     }
 
     [SerializeField] private float rayLength = 1f;
@@ -83,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
             }
             if (Input.GetButtonDown("Dash") && canControlPlayer && hasResetDash)
             {
-                StartCoroutine(ActionCooldown(0.3f, Action.Dash));
+                StartCoroutine(ActionCooldown(0.2f, Action.Dash));
             }
             //do we need input for wall jumping?
         }
@@ -104,15 +90,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void FlipControl()
     {
-        bool touchingGround = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer); ;
+        bool touchingGround = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+        //Debug.Log(touchingGround);
 
         if (touchingGround)
         {
             grounded = true;
-            jumpTime = Time.time + wallJumpTime;
             hasResetDash = true;
         }
-        else if (jumpTime < Time.time)
+        else
         {
             grounded = false;
         }
@@ -142,11 +128,11 @@ public class PlayerMovement : MonoBehaviour
                 hasResetDash = false;
                 if(isFacingRight)
                 {
-                    playerRB.AddForce(new Vector2(currentSaveData.dashDistance * 10, 0), ForceMode2D.Force);
+                    playerRB.AddForce(new Vector2(transform.localScale.x * currentSaveData.dashDistance * 10, 0), ForceMode2D.Force);
                 }
                 else
                 {
-                    playerRB.AddForce(new Vector2(-1 * currentSaveData.dashDistance * 10, 0), ForceMode2D.Force);
+                    playerRB.AddForce(new Vector2(transform.localScale.x * currentSaveData.dashDistance * 10, 0), ForceMode2D.Force);
                 }
                 
                 Debug.Log("performed a dash");
@@ -173,17 +159,33 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    #endregion
-
-    void OnCollisionStay2D(Collision2D obj)
+    void WallJumping()
     {
-        if (obj.gameObject.CompareTag("Wall"))
+        //Wall Jump
+        if (isFacingRight)
         {
-            isWallSliding = true;
+            WallCheckHit = Physics2D.Raycast(transform.position, new Vector2(wallDistance, 0), wallDistance, groundLayer);
         }
         else
         {
+            WallCheckHit = Physics2D.Raycast(transform.position, new Vector2(-wallDistance, 0), wallDistance, groundLayer);
+        }
+
+        if (WallCheckHit && !grounded && horizontalAxis != 0)
+        {
+            isWallSliding = true;
+            jumpTime = Time.time + wallJumpTime;
+        }
+        else if (jumpTime < Time.time)
+        {
             isWallSliding = false;
         }
+
+        if (isWallSliding)
+        {
+            playerRB.velocity = new Vector2(playerRB.velocity.x, Mathf.Clamp(playerRB.velocity.y, wallSlideSpeed, float.MaxValue));
+        }
     }
+
+    #endregion
 }

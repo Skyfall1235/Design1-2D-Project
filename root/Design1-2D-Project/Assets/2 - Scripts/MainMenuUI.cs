@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UiManager : MonoBehaviour
+public class MainMenuManager : MonoBehaviour
 {
     [SerializeField] private GameObject titleScreen;
     [SerializeField] private GameObject settingsPanel;

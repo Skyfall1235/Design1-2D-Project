@@ -17,7 +17,7 @@ MonoBehaviour:
   currentStage: 0
   coinAmount: 0
   walkSpeed: 6
-  dashDistance: 200
+  dashDistance: 700
   jumpForce: 1000
   currentHealth: 100
   weaponType: 0
