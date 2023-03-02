@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     private float horizontalAxis;
     //no longer needed, is stored on the scriptable object
     //private float jumpingPower = 1000f;
-    private bool isFacingRight = true;
+    [SerializeField] private bool isFacingRight = true;
     [SerializeField] private Rigidbody2D playerRB;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
@@ -21,8 +21,8 @@ public class PlayerMovement : MonoBehaviour
     private float wallSlideSpeed = 0.3f;
     private float wallDistance = 0.55f;
     private bool isWallSliding = false;
-    private bool canControlPlayer = true;
-    private bool hasResetDash;
+    [SerializeField] private bool canControlPlayer = true;
+    [SerializeField] private bool hasResetDash;
     private RaycastHit2D WallCheckHit;
     private float jumpTime;
 
@@ -34,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         TakeInput();
+        DrawVelocityLine();
     }
 
     private void FixedUpdate()
@@ -63,6 +64,15 @@ public class PlayerMovement : MonoBehaviour
         {
             playerRB.velocity = new Vector2(playerRB.velocity.x, Mathf.Clamp(playerRB.velocity.y, wallSlideSpeed, float.MaxValue));
         }
+
+
+    }
+
+    [SerializeField] private float rayLength = 1f;
+
+    private void DrawVelocityLine()
+    {
+        Debug.DrawRay(transform.position, playerRB.velocity.normalized * rayLength, Color.green);
     }
 
     private void TakeInput()
@@ -77,7 +87,7 @@ public class PlayerMovement : MonoBehaviour
             }
             if (Input.GetButtonDown("Dash") && canControlPlayer && hasResetDash)
             {
-                StartCoroutine(ActionCooldown(3, Action.Dash));
+                StartCoroutine(ActionCooldown(0.3f, Action.Dash));
             }
             //do we need input for wall jumping?
         }
@@ -134,7 +144,16 @@ public class PlayerMovement : MonoBehaviour
                 playerRB.gravityScale = 0.0f;
                 //perform the dash, then wait \
                 hasResetDash = false;
-                playerRB.AddForce(new Vector2(transform.localScale.x * currentSaveData.dashDistance, 0));
+                if(isFacingRight)
+                {
+                    playerRB.AddForce(new Vector2(currentSaveData.dashDistance * 10, 0), ForceMode2D.Force);
+                }
+                else
+                {
+                    playerRB.AddForce(new Vector2(-1 * currentSaveData.dashDistance * 10, 0), ForceMode2D.Force);
+                }
+                
+                Debug.Log("performed a dash");
                 yield return new WaitForSeconds(value);
                 //then turn back control to the player
                 canControlPlayer = true;
@@ -145,10 +164,12 @@ public class PlayerMovement : MonoBehaviour
                 //gives the addforce with the boolean statements already confirmed above
                 grounded = false;
                 playerRB.AddForce(new Vector2(0f, currentSaveData.jumpForce));
+                Debug.Log("performed a jump");
 
                 break;
             case Action.WallClimb:
                 //can we migrate the wall jumping code here?
+                Debug.Log("performed a wallclimb?");
                 break;
             default: break;
         
