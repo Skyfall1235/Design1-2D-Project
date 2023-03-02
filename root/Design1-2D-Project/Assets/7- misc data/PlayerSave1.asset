@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: PlayerSave1
   m_EditorClassIdentifier: 
   playerPosition: {x: 0, y: 0}
-  cameraPosition: {x: 0, y: 0}
+  stageArray: []
+  currentStage: 0
   coinAmount: 0
   walkSpeed: 6
-  jumpForce: 600
+  dashDistance: 200
+  jumpForce: 1000
   currentHealth: 100
   weaponType: 0
