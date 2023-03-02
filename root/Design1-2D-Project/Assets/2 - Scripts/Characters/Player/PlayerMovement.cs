@@ -7,8 +7,13 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement")]
     private float horizontalAxis;
     //no longer needed, is stored on the scriptable object
-    //private float jumpingPower = 1000f;
+    private float jumpingPower = 25f;
     [SerializeField] private bool isFacingRight = true;
+    public bool isFacingR
+    {
+        get {return isFacingRight;}
+    }
+
     [SerializeField] private Rigidbody2D playerRB;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
@@ -19,8 +24,8 @@ public class PlayerMovement : MonoBehaviour
     //hint, what could we potentially change later to buff or nerf the player
     private float wallJumpTime = 0.2f;
     private float wallSlideSpeed = 0.3f;
-    private float wallDistance = 0.55f;
-    private bool isWallSliding = false;
+    private float wallDistance = 0.51f;
+    [SerializeField] private bool isWallSliding = false;
     [SerializeField] private bool canControlPlayer = true;
     [SerializeField] private bool hasResetDash;
     private RaycastHit2D WallCheckHit;
@@ -45,13 +50,6 @@ public class PlayerMovement : MonoBehaviour
 
         //Wall Jump
         //can we move this to the switch case and then call its coroutine here?
-        if (isFacingRight)
-        {
-            WallCheckHit = Physics2D.Raycast(transform.position, new Vector2(wallDistance, 0), wallDistance, groundLayer);
-        } else {
-            WallCheckHit = Physics2D.Raycast(transform.position, new Vector2(-wallDistance, 0), wallDistance, groundLayer);
-        }
-
         if(WallCheckHit && !grounded && horizontalAxis != 0)
         {
             isWallSliding = true;
@@ -64,8 +62,6 @@ public class PlayerMovement : MonoBehaviour
         {
             playerRB.velocity = new Vector2(playerRB.velocity.x, Mathf.Clamp(playerRB.velocity.y, wallSlideSpeed, float.MaxValue));
         }
-
-
     }
 
     [SerializeField] private float rayLength = 1f;
@@ -157,7 +153,7 @@ public class PlayerMovement : MonoBehaviour
                 yield return new WaitForSeconds(value);
                 //then turn back control to the player
                 canControlPlayer = true;
-                playerRB.gravityScale = 1.0f;
+                playerRB.gravityScale = 3.5f;
                 break;
                 
             case Action.jump:
@@ -178,4 +174,16 @@ public class PlayerMovement : MonoBehaviour
     }
 
     #endregion
+
+    void OnCollisionStay2D(Collision2D obj)
+    {
+        if (obj.gameObject.CompareTag("Wall"))
+        {
+            isWallSliding = true;
+        }
+        else
+        {
+            isWallSliding = false;
+        }
+    }
 }

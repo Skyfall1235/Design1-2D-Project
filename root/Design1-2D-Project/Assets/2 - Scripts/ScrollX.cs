@@ -9,19 +9,19 @@ public class ScrollX : MonoBehaviour
     [SerializeField] private GameObject[] waypoints;
     [SerializeField] private Transform target;
     public float speed;
-    [SerializeField] private int stagenum;
+    [SerializeField] private int stageNum;
     private bool move = false;
     
     void Start()
     {
-        stagenum = 0;
+        stageNum = 0;
     }
 
     void Update()
     {
         if(move)
         {
-            target = waypoints[stagenum].transform;
+            target = waypoints[stageNum].transform;
             if (camera.transform.position != target.position)
             {
                 camera.transform.position = Vector3.Lerp(camera.transform.position, target.position, speed * Time.deltaTime);
@@ -32,19 +32,19 @@ public class ScrollX : MonoBehaviour
     }
 
     // bugs if a player jitters in the trigger exit
-    void OnTriggerExit2D(Collider2D obj)
+    void OnTriggerEnter2D(Collider2D obj)
     {
         if (obj.gameObject.CompareTag("Player"))
         {
-            // if (player.GetComponent<PlayerMovement>().isFacingR)
-            // {
-            //     stagenum += 1;
-            //     move = true;
+            if (player.GetComponent<PlayerMovement>().isFacingR)
+            {
+                stageNum += 1;
+                move = true;
 
-            // } else if (!player.GetComponent<PlayerMovement>().isFacingR) {
-            //     stagenum -= 1;
-            //     move = true;
-            // }
+            } else if (!player.GetComponent<PlayerMovement>().isFacingR) {
+                stageNum -= 1;
+                move = true;
+            }
         }
     }
 }
