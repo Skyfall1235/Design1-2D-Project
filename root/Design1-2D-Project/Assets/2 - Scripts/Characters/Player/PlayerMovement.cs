@@ -26,6 +26,12 @@ public class PlayerMovement : MonoBehaviour
     private float wallDistance = 0.55f;
     [SerializeField] private bool isWallSliding = false;
     [SerializeField] private bool canControlPlayer = true;
+    // public bool canControl
+    // {
+    //     get {return canControlPlayer;}
+    //     set {canControlPlayer = value;}
+    // }
+
     [SerializeField] private bool hasResetDash;
     private RaycastHit2D WallCheckHit;
     private float jumpTime;
