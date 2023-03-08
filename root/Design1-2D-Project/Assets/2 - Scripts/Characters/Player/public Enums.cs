@@ -15,3 +15,11 @@ public enum Action
     Dash,
     WallClimb
 }
+public enum AttackType
+{
+    Stab, 
+    DownwardSwipe, 
+    UpwardSwipe, 
+    HighBlock, 
+    LowBlock
+}
