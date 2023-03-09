@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 79b98d0535b862941b47d0f30d2fdc39
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Gothica
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: e1de50396eff70b478504a4356c0f783, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
