@@ -21,26 +21,26 @@ public class PlayerMovement : MonoBehaviour
     [Header("Wall Jump")]
     //what data belongs in the save data, and not this script? 
     //hint, what could we potentially change later to buff or nerf the player
+    
+    // I don't see anything here that we could change for a better/worse result,
+    // Jumptime is time between when the player isn't actively wallsliding/holding into the wall and when the player can't jump off wall
+    // Changing slide speed will either allow us to slip off the wall or completely stop on the wall (but idk how that could be beneficial)
+    // and wall distance should be constant (distance from player center to the outside of the player) -F
     private float wallJumpTime = 0.2f;
     private float wallSlideSpeed = 0.3f;
     private float wallDistance = 0.55f;
     [SerializeField] private bool isWallSliding = false;
-    [SerializeField] private bool canControlPlayer = true;
-    // public bool canControl
-    // {
-    //     get {return canControlPlayer;}
-    //     set {canControlPlayer = value;}
-    // }
-
-    [SerializeField] private bool hasResetDash;
     private RaycastHit2D WallCheckHit;
-    private float jumpTime;
+    private float jumpTime; // Why are there two jumpTimes? -F
+
+    [Header("Dash")]
+    [SerializeField] private bool canControlPlayer = true;
+    [SerializeField] private bool hasResetDash;
 
     [Header("Save Data")]
     //needs to be public to be accessible to the save data manager
     public PlayerData currentSaveData;
 
-    // Update is called once per frame
     void Update()
     {
         TakeInput();
@@ -52,7 +52,6 @@ public class PlayerMovement : MonoBehaviour
         playerRB.velocity = new Vector2(horizontalAxis * currentSaveData.walkSpeed, playerRB.velocity.y);
 
         FlipControl();
-
         WallJumping();
     }
 
@@ -78,6 +77,7 @@ public class PlayerMovement : MonoBehaviour
                 StartCoroutine(ActionCooldown(0.2f, Action.Dash));
             }
             //do we need input for wall jumping?
+            // We don't, it just uses the jump function -F
         }
 
     }
@@ -97,7 +97,6 @@ public class PlayerMovement : MonoBehaviour
     private void FlipControl()
     {
         bool touchingGround = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
-        //Debug.Log(touchingGround);
 
         if (touchingGround)
         {
@@ -130,7 +129,7 @@ public class PlayerMovement : MonoBehaviour
                 //turn off the player control,do force without gravity, then after it ends turn those back on
                 canControlPlayer = false;
                 playerRB.gravityScale = 0.0f;
-                //perform the dash, then wait \
+                //perform the dash, then wait
                 hasResetDash = false;
                 if(isFacingRight)
                 {
@@ -157,6 +156,7 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case Action.WallClimb:
                 //can we migrate the wall jumping code here?
+                // the wall jump function p much just checks input and changes values accordingly, don't see how a coroutine would be beneficial to that -F
                 Debug.Log("performed a wallclimb?");
                 break;
             default: break;
@@ -167,7 +167,6 @@ public class PlayerMovement : MonoBehaviour
 
     void WallJumping()
     {
-        //Wall Jump
         if (isFacingRight)
         {
             WallCheckHit = Physics2D.Raycast(transform.position, new Vector2(wallDistance, 0), wallDistance, groundLayer);
