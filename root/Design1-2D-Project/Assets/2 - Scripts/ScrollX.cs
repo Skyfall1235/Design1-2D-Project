@@ -19,6 +19,8 @@ public class ScrollX : MonoBehaviour
             }
         }
     }
+
+    // Make combat lock code and collider
     
     void OnTriggerEnter2D(Collider2D obj)
     {
