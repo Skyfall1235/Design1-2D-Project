@@ -17,15 +17,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private bool grounded;
+    private bool wasGrounded;
 
     [Header("Wall Jump")]
-    //what data belongs in the save data, and not this script? 
-    //hint, what could we potentially change later to buff or nerf the player
-    
-    // I don't see anything here that we could change for a better/worse result,
-    // Jumptime is time between when the player isn't actively wallsliding/holding into the wall and when the player can't jump off wall
-    // Changing slide speed will either allow us to slip off the wall or completely stop on the wall (but idk how that could be beneficial)
-    // and wall distance should be constant (distance from player center to the outside of the player) -F
     private float wallJumpTime = 0.2f;
     private float wallSlideSpeed = 0.3f;
     private float wallDistance = 0.55f;
@@ -36,6 +30,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("Dash")]
     [SerializeField] private bool canControlPlayer = true;
     [SerializeField] private bool hasResetDash;
+
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
 
     [Header("Save Data")]
     //needs to be public to be accessible to the save data manager
@@ -67,6 +64,7 @@ public class PlayerMovement : MonoBehaviour
         if(canControlPlayer)
         {
             horizontalAxis = Input.GetAxisRaw("Horizontal");
+            animator.SetFloat("Horizontal", Mathf.Abs(horizontalAxis));
 
             if (Input.GetButtonDown("Jump") && grounded || Input.GetButtonDown("Jump") && isWallSliding)
             {
@@ -76,8 +74,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 StartCoroutine(ActionCooldown(0.2f, Action.Dash));
             }
-            //do we need input for wall jumping?
-            // We don't, it just uses the jump function -F
         }
 
     }
@@ -96,16 +92,25 @@ public class PlayerMovement : MonoBehaviour
 
     private void FlipControl()
     {
+        if (grounded != null)
+            wasGrounded = grounded;
+        
         bool touchingGround = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
 
         if (touchingGround)
         {
             grounded = true;
             hasResetDash = true;
+
+            if (!wasGrounded)
+            {
+                animator.SetBool("IsJumping", false);
+            }
         }
         else
         {
             grounded = false;
+            animator.SetBool("IsJumping", true);
         }
 
         if (horizontalAxis > 0 && !isFacingRight)
@@ -151,6 +156,7 @@ public class PlayerMovement : MonoBehaviour
                 //gives the addforce with the boolean statements already confirmed above
                 grounded = false;
                 playerRB.AddForce(new Vector2(0f, currentSaveData.jumpForce));
+                animator.SetBool("IsJumping", true);
                 Debug.Log("performed a jump");
 
                 break;
