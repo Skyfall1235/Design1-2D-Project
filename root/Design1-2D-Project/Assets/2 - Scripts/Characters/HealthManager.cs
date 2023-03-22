@@ -4,27 +4,27 @@ using UnityEngine;
 
 public class HealthManager
 {
-    //static values across all instances
+    //static values across all instances, to control maximum healing & damage
     public static int maximumBaseHP = 100;
     public static int maximumDamageValue = 90;
 
     #region health variables
+    //truehealth is for reciveing the HP the object has to display
     private int trueHealth;
     public int TrueHP
     {
         get { return trueHealth; }
         set { trueHealth = value; }
     }
-
-
+    //gives bonus health to increase difficulty
     private int bonusHealth;
     public int BonusHP
     {
         get { return bonusHealth; }
         set { bonusHealth = value; }
     }
-
-
+    //sets a base amount of HP. note, if an object heals,
+    //it can only heal up to a value of 100 or itself
     private int baseHealth;
     public int BaseHP
     {
@@ -32,6 +32,8 @@ public class HealthManager
         set { baseHealth = value; }
     }
     #endregion
+
+    
 
 
     public void SetHP(int inputHealth)
@@ -66,6 +68,8 @@ public class HealthManager
     {
         //if the base hp is lower that 100, heal the HP first and use the rest on the bonus health amount.
         //if (bonus)
+
+        //NOT IMPLEMENTED
     }
 
     public int TrueHealthClaculation()

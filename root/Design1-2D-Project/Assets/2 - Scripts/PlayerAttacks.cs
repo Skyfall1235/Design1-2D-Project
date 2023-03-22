@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerAttacks : MonoBehaviour
 {
+    [SerializeField] private GameObject[] Colliders;
     //what varaibles do i need? i need all the instantiation locations on the player, he cooldown of the attacks for the player?
     //and maybe the weapon types fo at leas t the animation triggers.
 
