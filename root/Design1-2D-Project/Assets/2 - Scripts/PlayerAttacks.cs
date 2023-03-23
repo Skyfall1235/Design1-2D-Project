@@ -59,10 +59,10 @@ public class PlayerAttacks : MonoBehaviour
         DetermineAttack(currentAttack);
         
     }
-    void BlockAction()
-    {
+    //void BlockAction()
+    //{
 
-    }
+    //}
     void DetermineAttack(int attack)
     {
         //Debug.Log("attacked 3");

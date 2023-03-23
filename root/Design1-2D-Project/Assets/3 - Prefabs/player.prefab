@@ -228,7 +228,7 @@ Transform:
   - {fileID: 3805071548656606791}
   - {fileID: 2539890738497808115}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3805071548947734047
 SpriteRenderer:
@@ -414,7 +414,9 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 0
+  attacking: 0
   attackSpeed: 2
+  currentAttack: 0
   attackDamage: 40
 --- !u!1 &3805071548656606784
 GameObject:
