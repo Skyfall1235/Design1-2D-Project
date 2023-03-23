@@ -17,7 +17,16 @@ public class CustomDamageValue : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision col)
+    void GiveDamage(Collision2D col, int damageValue)
+    {
+        I_Interactable interactable = col.gameObject.GetComponent<I_Interactable>();
+        if (interactable != null)
+        {
+            interactable.TakeDamage(damageValue); // Call TakeDamage method with parameter of 10
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D col)
     {
         if(isDefending)
         {
@@ -26,27 +35,29 @@ public class CustomDamageValue : MonoBehaviour
         if(!isDefending)
         {
             //get tthe current attack type, and calculate the damage
+            //assuming the HP of enemies is between 50-125, do some damage there
             int chosenDamageValue;
             
             switch (currentSaveData.weaponType)
             {
             case WeaponType.Stick:
-                    chosenDamageValue = 20;    
+                    chosenDamageValue = 20;   
+                    GiveDamage(col, chosenDamageValue);
                     break;
             case WeaponType.Knife:
                     chosenDamageValue = 45;
+                    GiveDamage(col, chosenDamageValue);
                     break;
             case WeaponType.Sword:
                     chosenDamageValue = 75;
+                    GiveDamage(col, chosenDamageValue);
                     break;
             }
-            I_Interactable interactable = col.gameObject.GetComponent<I_Interactable>();
-            if (interactable != null)
-            {
-                interactable.TakeDamage(10); // Call TakeDamage method with parameter of 10
-            }
-            //assuming the HP of enemies is between 50-125, do some damage there
+            
+            
         }
     }
+
+
 
 }

@@ -145,7 +145,7 @@ public class PlayerMovement : MonoBehaviour
                     playerRB.AddForce(new Vector2(transform.localScale.x * currentSaveData.dashDistance * 10, 0), ForceMode2D.Force);
                 }
                 
-                Debug.Log("performed a dash");
+                //Debug.Log("performed a dash");
                 yield return new WaitForSeconds(value);
                 //then turn back control to the player
                 canControlPlayer = true;
@@ -157,13 +157,13 @@ public class PlayerMovement : MonoBehaviour
                 grounded = false;
                 playerRB.AddForce(new Vector2(0f, currentSaveData.jumpForce));
                 animator.SetBool("IsJumping", true);
-                Debug.Log("performed a jump");
+                //Debug.Log("performed a jump");
 
                 break;
             case Action.WallClimb:
                 //can we migrate the wall jumping code here?
                 // the wall jump function p much just checks input and changes values accordingly, don't see how a coroutine would be beneficial to that -F
-                Debug.Log("performed a wallclimb?");
+                //Debug.Log("performed a wallclimb?");
                 break;
             default: break;
         
