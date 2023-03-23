@@ -77,37 +77,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.45315838, y: 2.134984}
   m_EdgeRadius: 0
---- !u!1 &1349696127381404100
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4980935307256851853}
-  m_Layer: 7
-  m_Name: BackwardAttackPoints
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4980935307256851853
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1349696127381404100}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2539890738497808115}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1976348996848978240
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,6 +205,7 @@ GameObject:
   - component: {fileID: 3805071548359580857}
   - component: {fileID: 3805071548359580858}
   - component: {fileID: 4716951798365132879}
+  - component: {fileID: 6900461715643756161}
   m_Layer: 7
   m_Name: player
   m_TagString: Player
@@ -258,7 +228,7 @@ Transform:
   - {fileID: 3805071548656606791}
   - {fileID: 2539890738497808115}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3805071548947734047
 SpriteRenderer:
@@ -386,7 +356,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72cab6b0fe1ef3543999ae0533899eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 4716951798365132879}
   isFacingRight: 1
   playerRB: {fileID: 3805071548359580859}
   groundCheck: {fileID: 3805071548656606791}
@@ -397,6 +366,7 @@ MonoBehaviour:
   isWallSliding: 0
   canControlPlayer: 1
   hasResetDash: 0
+  animator: {fileID: 4716951798365132879}
   currentSaveData: {fileID: 11400000, guid: 7cd45cd1918675c43a39dfede9835dd7, type: 2}
   rayLength: 1
 --- !u!95 &4716951798365132879
@@ -419,6 +389,33 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &6900461715643756161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3805071548359580998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90510221982b359479188431f7795289, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackColliders:
+  - {fileID: 2395178113857452997}
+  - {fileID: 8530023711560100152}
+  - {fileID: 8455050401721948672}
+  - {fileID: 7502681151484496354}
+  defendColliders:
+  - {fileID: 4847668310243998859}
+  - {fileID: 1267701877761869656}
+  animator: {fileID: 0}
+  attackPoint: {fileID: 0}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  attackSpeed: 2
+  attackDamage: 40
 --- !u!1 &3805071548656606784
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,7 +553,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7827124413870961643}
-  - {fileID: 4980935307256851853}
   m_Father: {fileID: 3805071548359580996}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

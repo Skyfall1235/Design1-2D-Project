@@ -92,8 +92,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FlipControl()
     {
-        if (grounded != null)
-            wasGrounded = grounded;
+        //if (grounded != null)
+        //    wasGrounded = grounded;
         
         bool touchingGround = Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
 

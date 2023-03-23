@@ -26,5 +26,6 @@ public class DestructableObjects : MonoBehaviour, I_Interactable
     void I_Interactable.Interact()
     {
         //not needed here but is required to exist
+        return;
     }
 }

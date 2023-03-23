@@ -10,6 +10,7 @@ public class CustomDamageValue : MonoBehaviour
 
     PlayerData currentSaveData;
     [SerializeField] bool isDefending;
+    [SerializeField] bool isCrit;
 
     private void Start()
     {
@@ -41,15 +42,36 @@ public class CustomDamageValue : MonoBehaviour
             switch (currentSaveData.weaponType)
             {
             case WeaponType.Stick:
-                    chosenDamageValue = 20;   
+                    if(isCrit)
+                    {
+                        chosenDamageValue = 30;
+                    }
+                    else
+                    {
+                        chosenDamageValue = 20;
+                    }
                     GiveDamage(col, chosenDamageValue);
                     break;
             case WeaponType.Knife:
-                    chosenDamageValue = 45;
+                    if (isCrit)
+                    {
+                        chosenDamageValue = 55;
+                    }
+                    else
+                    {
+                        chosenDamageValue = 45;
+                    }
                     GiveDamage(col, chosenDamageValue);
                     break;
             case WeaponType.Sword:
-                    chosenDamageValue = 75;
+                    if (isCrit)
+                    {
+                        chosenDamageValue = 100;
+                    }
+                    else
+                    {
+                        chosenDamageValue = 75;
+                    }
                     GiveDamage(col, chosenDamageValue);
                     break;
             }
