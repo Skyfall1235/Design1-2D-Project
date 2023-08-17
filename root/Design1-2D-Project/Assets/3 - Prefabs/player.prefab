@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7603825932676099082}
   - component: {fileID: 934169988045913382}
+  - component: {fileID: 6560508821321331421}
   m_Layer: 7
   m_Name: ATKPNT_BLOCK2
   m_TagString: Untagged
@@ -77,6 +78,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.45315838, y: 2.134984}
   m_EdgeRadius: 0
+--- !u!114 &6560508821321331421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267701877761869656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ded21b7c82a57aa42b20acd473596ed2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentSaveData: {fileID: 0}
+  isDefending: 1
+  isCrit: 0
 --- !u!1 &1976348996848978240
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,6 +140,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4324705370431754837}
   - component: {fileID: 1199104487078272552}
+  - component: {fileID: 8326129572621853031}
   m_Layer: 7
   m_Name: ATKPNT_(1)
   m_TagString: Untagged
@@ -191,6 +208,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.313036}
   m_EdgeRadius: 0
+--- !u!114 &8326129572621853031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2395178113857452997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ded21b7c82a57aa42b20acd473596ed2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentSaveData: {fileID: 0}
+  isDefending: 0
+  isCrit: 0
 --- !u!1 &3805071548359580998
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,6 +491,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2323688992043214403}
   - component: {fileID: 3789706094787834824}
+  - component: {fileID: 1893718968792661300}
   m_Layer: 7
   m_Name: ATKPNT_BLOCK1
   m_TagString: Untagged
@@ -526,6 +559,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.277318, y: 0.53039837}
   m_EdgeRadius: 0
+--- !u!114 &1893718968792661300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4847668310243998859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ded21b7c82a57aa42b20acd473596ed2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentSaveData: {fileID: 0}
+  isDefending: 1
+  isCrit: 0
 --- !u!1 &4993774956845600716
 GameObject:
   m_ObjectHideFlags: 0
@@ -568,6 +616,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2216157249727928111}
   - component: {fileID: 8896715414531076765}
+  - component: {fileID: 3634117906880511515}
   m_Layer: 7
   m_Name: ATKPNT_crit
   m_TagString: Untagged
@@ -635,6 +684,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.60647774, y: 0.6757841}
   m_EdgeRadius: 0
+--- !u!114 &3634117906880511515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7502681151484496354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ded21b7c82a57aa42b20acd473596ed2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentSaveData: {fileID: 0}
+  isDefending: 0
+  isCrit: 1
 --- !u!1 &8455050401721948672
 GameObject:
   m_ObjectHideFlags: 0
@@ -645,6 +709,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8152698757421838981}
   - component: {fileID: 6250031803779092146}
+  - component: {fileID: 3661167411036438496}
   m_Layer: 7
   m_Name: ATKPNT_stab
   m_TagString: Untagged
@@ -712,6 +777,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.006187, y: 0.6757841}
   m_EdgeRadius: 0
+--- !u!114 &3661167411036438496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8455050401721948672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ded21b7c82a57aa42b20acd473596ed2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentSaveData: {fileID: 0}
+  isDefending: 0
+  isCrit: 0
 --- !u!1 &8530023711560100152
 GameObject:
   m_ObjectHideFlags: 0
@@ -722,6 +802,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1663670365366597307}
   - component: {fileID: 3542521773060501116}
+  - component: {fileID: 386563775370696416}
   m_Layer: 7
   m_Name: ATKPNT_(2)
   m_TagString: Untagged
@@ -789,3 +870,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.2683163}
   m_EdgeRadius: 0
+--- !u!114 &386563775370696416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8530023711560100152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ded21b7c82a57aa42b20acd473596ed2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentSaveData: {fileID: 0}
+  isDefending: 0
+  isCrit: 0

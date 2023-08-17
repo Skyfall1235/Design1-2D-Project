@@ -3088,6 +3088,7 @@ GameObject:
   - component: {fileID: 533644808}
   - component: {fileID: 533644809}
   - component: {fileID: 533644810}
+  - component: {fileID: 533644811}
   m_Layer: 0
   m_Name: Breakable (1)
   m_TagString: Untagged
@@ -3103,7 +3104,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 533644807}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -458.95, y: -305.55, z: -3.8698008}
+  m_LocalPosition: {x: -459.15, y: -305.37, z: -3.8698008}
   m_LocalScale: {x: 2.8373983, y: 2.8373983, z: 2.8373983}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3183,6 +3184,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.26949447, y: 1.141194, z: 0.19999997}
   m_Center: {x: -0.014084384, y: -0.3182936, z: 0}
+--- !u!114 &533644811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533644807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 284f7cec980ed874cb238908e13ff7d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  setBaseHP: 20
+  setBonusHP: 15
 --- !u!1 &559655107
 GameObject:
   m_ObjectHideFlags: 0

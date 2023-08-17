@@ -8,7 +8,7 @@ public class CustomDamageValue : MonoBehaviour
     //this will be placed on every collider on the attack
     //and defend locations of the player,
 
-    PlayerData currentSaveData;
+    [SerializeField]PlayerData currentSaveData;
     [SerializeField] bool isDefending;
     [SerializeField] bool isCrit;
 

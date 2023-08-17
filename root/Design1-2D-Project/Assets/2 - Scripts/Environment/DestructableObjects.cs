@@ -13,11 +13,20 @@ public class DestructableObjects : MonoBehaviour, I_Interactable
     {
         VariableAssignment();
     }
+    void Update()
+    {
+        if (healthManager.TrueHP <= 0)
+        {
+            Destroy(gameObject);
+        }
+
+    }
     void VariableAssignment()
     {
         healthManager.BonusHP = setBonusHP;
         healthManager.BaseHP = setBaseHP;
         //trueHealth is just for display purposes, if required
+        healthManager.TrueHealthClaculation();
     }
     void I_Interactable.TakeDamage(int damage)
     {
